@@ -1,0 +1,80 @@
+
+// Program: Advanced 5 Elements
+// Developer's site: forexroboteasy.com
+// Development: Forex Robot Easy Team
+
+// Include necessary libraries
+#include <Trade\Trade.mqh>
+#include <Expert\Expert.mqh>
+#include <Arrays\ArrayObj.mqh>
+
+// Initialize global variables
+CTrade trade;
+CExpert expert;
+CArrayObj orders;
+
+// Define trend strategy function
+void TrendStrategy()
+{
+    // Implement trend analysis logic here
+    // ...
+    // Make informed trading decisions based on the analysis
+    // ...
+}
+
+// Define capital protection mechanism function
+void CapitalProtection()
+{
+    // Set Stop Loss (SL) feature to protect capital
+    trade.SetStopLoss(50); // Set SL to 50 pips
+}
+
+// Define Super Protection system function
+void SuperProtection()
+{
+    // Check for drawdown and close orders ahead of schedule
+    double drawdown = trade.GetDrawdown();
+    if(drawdown > 10) // If drawdown exceeds 10%
+    {
+        trade.CloseAll(); // Close all open orders
+        expert.Stop(); // Stop the expert advisor
+    }
+}
+
+// Define Risk Manager function
+void RiskManager()
+{
+    // Implement risk management logic here
+    // ...
+    // Safeguard investments based on risk management rules
+    // ...
+}
+
+// Initialize the expert advisor
+int OnInit()
+{
+    // Register functions with the expert advisor
+    expert.SetFunction(TrendStrategy);
+    expert.SetFunction(CapitalProtection);
+    expert.SetFunction(SuperProtection);
+    expert.SetFunction(RiskManager);
+    
+    // Enable auto-trading mode
+    expert.SetAutoTrading(true);
+    
+    return(INIT_SUCCEEDED);
+}
+
+// Execute the expert advisor
+void OnTick()
+{
+    // Execute the registered functions in the specified order
+    expert.Execute();
+}
+
+// Provide a logical conclusion
+void OnDeinit(const int reason)
+{
+    // Display a message indicating the termination reason
+    Print('Expert advisor terminated. Reason: ', reason);
+}
